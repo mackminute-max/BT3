@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blood & Thunder · Chariot Racing</title>
+<link rel="icon" href="data:,">
+<style>
+:root{color-scheme:dark;--bg:#14161d;--panel:#1d2028;--line:#32323a;--gold:#efbd6b;--text:#f4eadd;--muted:#a9a4a6;--green:#83c49d;--red:#f58e7a;--display:Georgia,"Times New Roman",serif;font-family:system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 50% 0,#22232d 0,transparent 54%),var(--bg);color:var(--text);min-width:320px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{cursor:default;opacity:.48}
+button:focus-visible{outline:2px solid #ffd98c;outline-offset:3px}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--display);font-weight:600}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.15}
+h3{font-size:21px}
+p{line-height:1.5;color:var(--muted);font-size:.9rem}
+.top{border-bottom:1px solid #37333b;background:#171920}
+.top-inner{max-width:1360px;min-height:76px;margin:auto;padding:0 34px;display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:26px}
+.brand{align-self:center;display:flex;align-items:center;gap:11px;padding:0;background:none;border:0;text-align:left;justify-self:start}
+.brand svg{width:39px;height:44px}
+.brand strong{display:block;font-family:var(--display);font-size:15px;letter-spacing:.08em;white-space:nowrap}
+.brand em{font-style:normal;color:var(--gold)}
+.brand small{font-size:8.5px;letter-spacing:.22em;color:#b79976}
+nav{display:flex;gap:10px}
+nav button{font-size:13px;white-space:nowrap;padding:0 12px;background:none;border:0;border-bottom:2px solid transparent;color:#b8b4b6;display:flex;align-items:center;gap:8px}
+nav button span{font-size:16px;color:#a68965}
+nav button.selected{border-color:var(--gold);color:var(--gold);background:linear-gradient(0deg,#efbd6b0c,transparent 75%)}
+nav button:hover:not(:disabled){color:var(--gold)}
+.resources{justify-self:end;display:flex;gap:19px;align-items:center}
+.resources>div{display:grid;grid-template-columns:auto auto;column-gap:6px;align-items:center}
+.resources b{font-size:.93rem}
+.resources small{grid-column:2;letter-spacing:.14em;color:var(--muted);font-size:8px}
+.coin,.rep-icon{color:var(--gold)}
+.rep-icon{color:#c0adec}
+main,footer{max-width:1280px;margin:auto;padding:30px 32px}
+main{min-height:calc(100vh - 145px)}
+.hero{position:relative;min-height:318px;isolation:isolate;border:1px solid #684c3f;border-radius:12px;overflow:hidden;background:#191b23;display:flex;align-items:center}
+.hero:after{content:'';position:absolute;inset:8px;border:1px solid #efbd6b38;border-radius:6px;pointer-events:none}
+.hero canvas{z-index:-1;position:absolute;right:0;top:0;width:100%;height:100%;object-fit:cover}
+.hero-content{padding:42px 44px}
+.hero-tag,.section-label,.hero-caption{font-size:10px;font-weight:750;letter-spacing:.19em;color:#d9a761}
+.hero-tag{display:flex;align-items:center;gap:10px}
+.hero-tag i{width:8px;height:8px;transform:rotate(45deg);border:1px solid var(--gold)}
+.hero h1{font-size:clamp(42px,6vw,82px);letter-spacing:-.055em;line-height:1.03;margin:15px 0 11px;text-shadow:0 3px 20px #171920}
+.hero p{font-size:15px;margin-bottom:25px;color:#d2c5bd}
+.hero-caption{position:absolute;right:24px;bottom:23px;color:#f7ca8e;font-size:9px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid #47434a;border-radius:6px;background:#23262e;min-height:38px;padding:8px 14px;font-size:12px;font-weight:700;text-align:center}
+.btn:hover:not(:disabled),.sign-btn:hover:not(:disabled){border-color:#ba9460;color:#ffda99;background:#2f2b2a}
+.btn.primary{color:#221a16;background:#efbd6b;border-color:#f4c981}
+.btn.primary:hover:not(:disabled){color:#221a16;background:#ffcf82}
+.btn.quiet{background:transparent;border-color:transparent;color:#e8bd80;padding-inline:5px}
+.btn.wide{width:100%}
+.btn.active,.sign-btn.active{border-color:#c39355;background:#69503042;color:#ffcf88;opacity:1}
+.panel{border:1px solid var(--line);border-radius:9px;background:var(--panel)}
+.dashboard{display:grid;grid-template-columns:minmax(0,2.04fr) minmax(0,1fr);gap:24px;margin:29px 0 21px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:13px}
+.section-label{margin-bottom:6px}
+.asset-grid,.cup-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.asset{padding:15px 13px;min-width:0}
+.asset-head,.featured-top{display:flex;gap:11px;align-items:center}
+.asset-icon,.cup-icon{width:44px;height:44px;flex:none;display:grid;place-items:center;color:#f5cb87;font-size:25px;background:linear-gradient(140deg,#524033,#2b282d);border:1px solid #6a523c;border-radius:7px}
+.asset-icon.beasts{color:#bce0ad;background:linear-gradient(140deg,#35473d,#252b2e);border-color:#4a6251}
+.asset-icon.chariot{color:#d5b9ed;background:linear-gradient(140deg,#493d56,#2d2936);border-color:#594865}
+.asset .section-label{font-size:8px;letter-spacing:.11em;margin-bottom:3px;text-transform:uppercase}
+.asset h3{font-size:17px;line-height:1.1}
+.asset p{font-size:10px;margin-top:5px}
+.condition{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin:18px 0 5px}
+.good{color:var(--green)}.warn{color:#edc270}.danger{color:var(--red)}
+.meter{height:4px;background:#373741;border-radius:9px;overflow:hidden}
+.meter i{display:block;height:100%;background:currentColor;border-radius:inherit}
+.featured{padding:13px 14px;background:linear-gradient(125deg,#2a2427,#1d2028 80%)}
+.featured h3,.cup-card h3{margin-top:4px}
+.badge{font-size:9px;font-weight:750;letter-spacing:.12em;color:#d2ccd0;border:1px solid #4b454d;background:#24252c;border-radius:4px;padding:4px 7px;display:inline-block;white-space:nowrap;text-transform:uppercase}
+.badge.gold{color:#eec47f;border-color:#644c36;background:#403127}
+.badge.red{color:#f3a092;border-color:#684049;background:#462c37}
+.featured-meta{display:flex;gap:13px;align-items:center;flex-wrap:wrap;color:#c5bec0;font-size:11px;margin:12px 0}
+.stable-strip{display:grid;grid-template-columns:repeat(3,1fr);padding:13px 0}
+.stable-strip div{display:grid;grid-template-columns:auto auto;align-items:center;justify-content:center;column-gap:8px;border-right:1px solid var(--line)}
+.stable-strip div:last-child{border-right:0}
+.stable-strip span{color:var(--gold);font-size:15px}
+.stable-strip b{font-family:var(--display);font-size:20px}
+.stable-strip small{grid-column:2;font-size:9px;letter-spacing:.12em;color:var(--muted)}
+footer{display:flex;justify-content:space-between;gap:20px;color:#a0999b;padding-top:0;padding-bottom:22px;font-size:9px;letter-spacing:.14em}
+.foot-mark{color:var(--gold);margin-right:4px}
+.page-head{margin:6px 0 24px}
+.page-head h2{font-size:clamp(34px,5vw,55px);letter-spacing:-.045em}
+.page-head p{margin-top:6px}
+.prep{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:13px;margin-bottom:16px}
+.prep p,.inner p,.report p{margin-top:5px}
+.segmented,.actions{display:flex;gap:6px;flex-wrap:wrap}
+.list-section{margin:24px 0}
+.list-section h2{margin-bottom:9px}
+.roster-choice{padding:10px;display:flex;flex-direction:column}
+.roster-choice>.asset{padding:8px 5px 13px;border:none;background:transparent;flex:1}
+.traits{display:flex;gap:12px;margin:8px 0 10px;color:#b9adb1;font-size:11px;flex-wrap:wrap}
+.traits b{color:var(--text)}
+.inner,.report{padding:17px}
+.report{margin-bottom:16px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.cup-card{display:flex;flex-direction:column;gap:8px}
+.cup-card>p{flex:1}
+.cup-card .featured-meta{margin:0 0 4px}
+.schedule{margin-top:10px}
+.schedule-row{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:8px;padding:9px 7px;border-bottom:1px solid var(--line);font-size:13px}
+.schedule-row:last-child{border-bottom:0}
+.schedule-row.current{background:#efbd6b0c}
+.event-no{color:#d0a66b;font-family:var(--display);font-size:16px}
+.schedule-row small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.standings{margin:8px 0}
+.standings>div{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:6px;border-bottom:1px solid var(--line);padding:7px 4px;font-size:12px}
+.standings>div:last-child{border-bottom:0}
+.standings .player{color:#ffd48e;background:#efbd6b0b}
+.position{color:var(--muted)}
+.dot,.live-dot{display:inline-block;width:8px;height:8px;background:var(--team);border-radius:50%;margin-right:6px}
+.live-dot{background:#f0956e;box-shadow:0 0 8px #e57862}
+.notice{padding:11px 14px;margin:13px 0;background:#29372e;color:#c4e9cf;border:1px solid #476052;border-radius:6px;font-size:13px}
+.muted{color:var(--muted)}
+dialog.panel{width:min(540px,calc(100vw - 30px));max-height:85vh;color:var(--text);box-shadow:0 20px 90px #000a;border-color:#74583f}
+dialog::backdrop{background:#0d1015bb}
+.dialog-actions{margin-top:16px;display:flex;justify-content:flex-end}
+.race-title{display:flex;justify-content:space-between;align-items:end;gap:12px}
+.race-grid{display:grid;grid-template-columns:minmax(0,2.4fr) minmax(240px,1fr);gap:14px}
+.race-camera{position:relative;overflow:hidden;background:#181920}
+.race-camera canvas{display:block;width:100%;height:auto}
+#race-hud{position:absolute;top:10px;left:10px;display:flex;gap:8px}
+#race-hud span{background:#17181de8;border:1px solid #8b694c;padding:6px 10px;border-radius:4px}
+#race-hud small{display:block;color:#c3aaa0;font-size:8px;font-weight:750;letter-spacing:.09em}
+#race-hud b{font-size:14px}
+#countdown{position:absolute;left:50%;top:26%;transform:translateX(-50%);font-family:var(--display);font-size:clamp(22px,5vw,46px);text-shadow:0 3px 12px #15151b;white-space:nowrap}
+.race-controls{margin:9px 0}
+.race-aside{display:grid;gap:10px;align-content:start}
+.race-aside .inner{padding:11px 13px}
+.map-panel canvas{display:block;margin:auto;width:100%;max-width:260px;height:auto}
+.sign-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.sign-btn{display:grid;gap:4px;text-align:left;background:#24262f;border:1px solid #40414a;border-radius:7px;padding:9px;font-size:12px}
+.sign-btn span{color:var(--gold);font-size:16px}
+.sign-btn small{color:#bcb4b8;font-size:10px;line-height:1.45}
+#commentary-feed{height:149px;overflow:auto;margin-top:8px}
+#commentary-feed>div{display:grid;grid-template-columns:33px 1fr;gap:4px;padding:5px 0;border-bottom:1px solid #34323a;font-size:11px}
+#commentary-feed time{color:#aaa1aa;font-variant-numeric:tabular-nums}
+#commentary-feed .sign,#commentary-feed .finish{color:#ffd18b}
+@media(max-width:1040px){.top-inner{padding:0 23px;gap:15px}nav{gap:2px}nav button{padding-inline:8px}.dashboard{grid-template-columns:1fr}.hero{min-height:294px}}
+@media(max-width:720px){.top-inner{grid-template-columns:1fr 1fr;gap:0;padding:8px 15px 0}.resources{grid-column:2;grid-row:1}nav{grid-column:1/-1;grid-row:2;justify-content:space-between;min-height:43px}nav button{font-size:11px}main,footer{padding-inline:15px}main{padding-top:16px}.hero-content{padding:28px 23px}.hero canvas{opacity:.7;object-position:65%}.hero-caption{display:none}.cup-grid,.two-col,.race-grid{grid-template-columns:1fr}.prep{align-items:start;flex-direction:column}.race-title{align-items:start;flex-direction:column}.asset-grid{gap:7px}.asset-head{align-items:start;flex-direction:column}}
+@media(max-width:400px){.section-head{align-items:start}.asset{padding:9px 6px}.asset h3{font-size:14px}.stable-strip small{font-size:7px}#race-hud span{padding:4px 6px}}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(() => {
+'use strict';
+/* data.js */
+const ASSETS = {
+  driver: [
+    { id:'vale', name:'Aurelia Vale', title:'Human · The tactician', icon:'♜', speed:1.00, grip:1.17, nerve:.86, price:0 },
+    { id:'korr', name:'Korr Ironhand', title:'Orc · The bruiser', icon:'♞', speed:1.10, grip:.91, nerve:1.28, price:95 },
+    { id:'syl', name:'Syl Vesper', title:'Elf · The opportunist', icon:'✦', speed:1.15, grip:1.09, nerve:.72, price:175 }
+  ],
+  beasts: [
+    { id:'ash', name:'Ashmane Pair', title:'Ember steeds · Balanced', icon:'♞', speed:1.03, grip:1, nerve:1.05, price:0 },
+    { id:'stag', name:'Moonhorn Team', title:'Silver stags · Agile', icon:'♘', speed:1.09, grip:1.20, nerve:.84, price:105 },
+    { id:'wyrm', name:'Cinder Drakes', title:'Lesser drakes · Hardy', icon:'♠', speed:1.04, grip:.89, nerve:1.40, price:190 }
+  ],
+  chariot: [
+    { id:'dawn', name:'Gilded Dawn', title:'Bronze frame · Balanced', icon:'◈', speed:1.02, grip:1.03, nerve:1, price:0 },
+    { id:'silk', name:'Silkwind', title:'Ashwood frame · Light', icon:'◇', speed:1.15, grip:1.04, nerve:.78, price:125 },
+    { id:'bastion', name:'Iron Bastion', title:'Steel frame · Armored', icon:'⬡', speed:.99, grip:.93, nerve:1.43, price:175 }
+  ]
+};
+
+const ROLES = { driver:'Driver', beasts:'Beast team', chariot:'Chariot' };
+const RIVALS = [
+  {name:'The Jade Talon', color:'#55d3a4', speed:1.09, grip:1.17, nerve:.86},
+  {name:'Crimson Covenant', color:'#ef655c', speed:1.10, grip:.92, nerve:1.26},
+  {name:'House Vesper', color:'#ad91eb', speed:1.07, grip:1.23, nerve:.80},
+  {name:'The Salt Wolves', color:'#68a9ed', speed:1.08, grip:1.02, nerve:1.18},
+  {name:'Ivory Standard', color:'#f0e5ca', speed:1.04, grip:1.02, nerve:1.06}
+];
+const TRACKS = {
+  sun: {name:'Sunspire Hippodrome', kind:'Oval', region:'AURELIAN DOMINION', color:'#bc7b4c', points:[[415,198],[850,198],[1035,252],[1100,425],[1035,605],[850,661],[415,661],[205,605],[140,425],[208,251]]},
+  dusk: {name:'Duskhollow Circuit', kind:'Circuit', region:'VERDANT MARCHES', color:'#8b7652', points:[[470,190],[835,173],[1050,264],[1077,495],[939,642],[699,584],[621,447],[473,429],[349,610],[184,567],[142,371],[245,221]]},
+  gate: {name:'Cinder Gate Run', kind:'Rally', region:'ASHEN FRONTIER', color:'#a76b49', points:[[170,615],[331,585],[466,498],[435,349],[301,265],[424,168],[669,196],[694,358],[830,478],[1025,382],[1100,194]]},
+  crown: {name:'Obsidian Crown', kind:'Circuit', region:'ASHEN FRONTIER', color:'#8e6850', points:[[444,205],[729,195],[893,270],[1021,204],[1088,356],[960,477],[968,611],[797,666],[582,542],[390,638],[186,549],[140,354],[249,224]]}
+};
+const EVENTS = {
+  sun:['sun','Pure',3,'Clear'], dusk:['dusk','Pure',3,'Rain'],
+  gate:['gate','Pure',1,'Dust'], clash:['sun','Combat',3,'Clear'],
+  crown:['crown','Combat',4,'Dust'], mire:['dusk','Combat',3,'Rain'],
+  fire:['gate','Combat',1,'Dust']
+};
+const CUPS = [
+  {id:'sun', name:'The Sunspire Cup', label:'NOVICE CHAMPIONSHIP', description:'Three gates to glory. Earn your colors on the storied tracks of the Dominion.', fee:40, purse:245, rep:0, events:['sun','dusk','gate']},
+  {id:'march', name:'Verdant Circuit', label:'HANDLING SERIES', description:'Fast corners and wet stone reward a steady hand.', fee:75, purse:340, rep:2, events:['dusk','sun','dusk','gate']},
+  {id:'clash', name:'Crimson Clash', label:'COMBAT CHAMPIONSHIP', description:'The stewards allow contact. The crowd demands it.', fee:90, purse:440, rep:4, events:['clash','mire','crown']},
+  {id:'frontier', name:'Frontier Rally', label:'POINT-TO-POINT SERIES', description:'One crossing at a time through the old volcanic passes.', fee:105, purse:500, rep:6, events:['gate','fire','gate','fire']},
+  {id:'crown', name:'Obsidian Crown', label:'MASTERS CHAMPIONSHIP', description:'Five unforgiving starts for the finest stables in the realm.', fee:135, purse:685, rep:9, events:['sun','mire','fire','dusk','crown']},
+  {id:'iron', name:'Iron Gauntlet', label:'ENDURANCE INVITATIONAL', description:'Twelve starts. Every repair, every race and every point counts.', fee:175, purse:1200, rep:13, events:['clash','mire','gate','crown','dusk','fire','sun','mire','clash','crown','fire','crown']}
+];
+const SIGNS = {
+  charge:{name:'Push the Pace', icon:'⚡', description:'More speed, higher fatigue and contact risk.'},
+  hold:{name:'Hold the Line', icon:'⬡', description:'Steadier handling and fewer risky passes.'},
+  rest:{name:'Conserve', icon:'✦', description:'Trade pace for stamina and protection.'}
+};
+const POINTS = [10,7,5,3,2,1];
+const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
+
+/* stable.js */
+
+const SAVE_KEY = 'blood-and-thunder.v1';
+function newStable() {
+  return {
+    gold:280, rep:0, cycles:0, wins:0, trophies:[], history:[],
+    roster:{vale:100,korr:100,ash:100,stag:100,dawn:100,silk:100},
+    selected:{driver:'vale',beasts:'ash',chariot:'dawn'},
+    plan:'balanced', mechanic:false, harness:false, training:0, project:null, cup:null
+  };
+}
+
+let storageAvailable = true;
+function loadStable() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    return raw ? {...newStable(), ...JSON.parse(raw)} : newStable();
+  } catch {
+    storageAvailable = false;
+    return newStable();
+  }
+}
+
+function saveStable(stable) {
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify(stable));
+    storageAvailable = true;
+  } catch {
+    storageAvailable = false;
+  }
+}
+
+const lineup = stable => Object.entries(stable.selected).map(([role,id]) =>
+  ASSETS[role].find(asset => asset.id === id)
+);
+const condition = stable => Math.round(lineup(stable).reduce((sum, asset) => sum + stable.roster[asset.id], 0) / 3);
+const legal = stable => lineup(stable).every(asset => stable.roster[asset.id] >= 25) &&
+  stable.project?.id !== stable.selected.driver;
+const repairCost = stable => stable.mechanic ? 18 : 30;
+const currentCup = stable => CUPS.find(cup => cup.id === stable.cup?.id);
+function eventInfo(id) {
+  const [trackId, discipline, laps, weather] = EVENTS[id];
+  return {trackId, track:TRACKS[trackId], discipline, laps, weather};
+}
+
+function enterCup(stable, id) {
+  const cup = CUPS.find(entry => entry.id === id);
+  if (!cup || stable.cup || !legal(stable) || stable.gold < cup.fee || stable.rep < cup.rep) return false;
+  stable.gold -= cup.fee;
+  stable.cup = {id, index:0, scores:[0,0,0,0,0,0], results:[], completed:null};
+  return true;
+}
+
+function serviceUnit(stable) {
+  const cost = repairCost(stable);
+  const team = lineup(stable);
+  if (stable.gold < cost || team.every(asset => stable.roster[asset.id] === 100)) return false;
+  stable.gold -= cost;
+  for (const asset of team) stable.roster[asset.id] = clamp(stable.roster[asset.id] + 28, 0, 100);
+  return true;
+}
+
+function championshipOrder(run) {
+  return run.scores.map((_, i) => i).sort((a,b) => run.scores[b] - run.scores[a] ||
+    (run.results.at(-1)?.placements.indexOf(a) ?? a) - (run.results.at(-1)?.placements.indexOf(b) ?? b));
+}
+
+function finishCup(stable, reason) {
+  const run = stable.cup;
+  if (run.completed) return;
+  const cup = currentCup(stable);
+  const place = reason === 'Finished' ? championshipOrder(run).indexOf(0) + 1 : null;
+  const payout = place ? Math.round(cup.purse * [1,.62,.43,.29,.22,.17][place - 1]) : 0;
+  stable.gold += payout;
+  if (run.results.length) {
+    stable.cycles++;
+    stable.rep += place ? (place <= 3 ? 3 : 2) : 1;
+    if (stable.project && --stable.project.remaining <= 0) {
+      stable.training++;
+      stable.project = null;
+    }
+    if (place === 1) {
+      stable.wins++;
+      if (!stable.trophies.includes(cup.name)) stable.trophies.push(cup.name);
+    }
+  }
+  run.completed = {reason, place, payout};
+  stable.history.unshift({name:cup.name, reason, place, payout});
+  stable.history = stable.history.slice(0,12);
+}
+
+function recordRace(stable, race) {
+  const run = stable.cup;
+  const placements = race.placements.map(unit => unit.id);
+  race.placements.forEach((unit,index) => { if (!unit.dnf) run.scores[unit.id] += POINTS[index]; });
+  const player = race.units[0];
+  const place = player.dnf ? null : placements.indexOf(0) + 1;
+  const purse = place ? [50,38,29,22,17,12][place - 1] : 5;
+  const damage = Math.round(player.damage);
+  const fatigue = Math.round(player.fatigue);
+  const wear = [
+    Math.round(damage * .39 + fatigue * .17 + (player.dnf ? 13 : 0)),
+    Math.round(damage * .27 + fatigue * .39 + (player.dnf ? 15 : 0)),
+    Math.round(damage * .69 + fatigue * .09 + (player.dnf ? 19 : 0))
+  ];
+  lineup(stable).forEach((asset, index) => {
+    stable.roster[asset.id] = clamp(stable.roster[asset.id] - wear[index] + (stable.mechanic ? 4 : 0), 0, 100);
+  });
+  stable.gold += purse;
+  run.results.push({name:race.event.track.name, placements, place, purse, damage, fatigue, wear});
+  run.index++;
+  if (run.index >= currentCup(stable).events.length) finishCup(stable,'Finished');
+  else if (Object.values(ASSETS).some(group => !group.some(asset =>
+    (stable.roster[asset.id] ?? 0) >= 25 && stable.project?.id !== asset.id))) finishCup(stable,'Eliminated');
+}
+
+/* race.js */
+
+const lerp = (a,b,t) => a + (b-a)*t;
+function makeTrack(track) {
+  const source = track.points;
+  const loop = track.kind !== 'Rally';
+  const get = i => source[loop ? (i + source.length) % source.length : clamp(i,0,source.length-1)];
+  const points = [];
+  for (let i=0; i<source.length-(loop ? 0 : 1); i++) {
+    const [a,b,c,d] = [get(i-1),get(i),get(i+1),get(i+2)];
+    for (let j=0;j<20;j++) {
+      const t = j/20;
+      points.push(b.map((v,k) => .5*((2*v)+(-a[k]+c[k])*t+
+        (2*a[k]-5*v+4*c[k]-d[k])*t*t+(-a[k]+3*v-3*c[k]+d[k])*t*t*t)));
+    }
+  }
+  points.push(loop ? points[0] : source.at(-1));
+  const lengths = [0];
+  for (let i=1;i<points.length;i++) lengths.push(lengths.at(-1)+Math.hypot(points[i][0]-points[i-1][0],points[i][1]-points[i-1][1]));
+  return {points,lengths,length:lengths.at(-1),loop};
+}
+
+function locate(path, distance, offset=0) {
+  const d = path.loop ? ((distance % path.length)+path.length)%path.length : clamp(distance,0,path.length);
+  let low=0, high=path.lengths.length-1;
+  while (high-low>1) {
+    const middle=(low+high)>>1;
+    if (path.lengths[middle]<=d) low=middle;
+    else high=middle;
+  }
+  const a=path.points[low], b=path.points[high];
+  const angle=Math.atan2(b[1]-a[1],b[0]-a[0]);
+  const t=(d-path.lengths[low])/(path.lengths[high]-path.lengths[low]);
+  const leadIn=path.loop ? 0 : Math.min(0,distance);
+  return {x:lerp(a[0],b[0],t)+Math.cos(angle)*leadIn-Math.sin(angle)*offset,y:lerp(a[1],b[1],t)+Math.sin(angle)*leadIn+Math.cos(angle)*offset,angle};
+}
+
+function addLog(race, message, type='') {
+  race.logs.unshift({time:race.time,message,type});
+  race.logs.length=Math.min(race.logs.length,35);
+}
+
+function activateSign(race) {
+  if (!race.queued || race.uses <= 0) {
+    race.active=null;
+    return;
+  }
+  race.active=race.queued;
+  race.queued=null;
+  race.uses--;
+  const messages={charge:'“Push the Pace” is up. The Dawnward line accelerates!',hold:'“Hold the Line” is up. The driver takes the clean route.',rest:'“Conserve” is up. The team settles into a steady rhythm.'};
+  addLog(race,messages[race.active],'sign');
+}
+
+function createRace(event, stable) {
+  const path=makeTrack(event.track);
+  const team=lineup(stable);
+  const average=key => team.reduce((sum,asset)=>sum+asset[key],0)/team.length;
+  const stats={name:'Dawnward Stable',color:'#ffd16e',speed:average('speed')+.035+(stable.harness?.055:0),
+    grip:average('grip')+(stable.training*.025),nerve:average('nerve')*(stable.plan==='bold'?1.14:1),
+    condition:condition(stable),plan:stable.plan};
+  const units=[stats,...RIVALS].map((entry,id)=>({...entry,id,
+    distance:-1-Math.floor(id/3)*19, lane:id%3, offset:(id%3-1)*27,
+    damage:0,fatigue:0,pace:0,done:false,dnf:false,contact:0,decision:Math.random()*2,hitHazard:-1
+  }));
+  return {event,path,units,time:0,countdown:3,paused:true,speed:1,uses:3,queued:null,active:null,
+    logs:[{time:0,message:'The teams are on the grid. The stewards are ready.',type:'sign'}],
+    placements:[],crossings:[],finished:false,hazard:null,hazardTime:5+Math.random()*8,playerPlace:1,announce:0};
+}
+
+function raceOrder(race) {
+  return [...race.units].sort((a,b)=>a.dnf-b.dnf || Number(b.done)-Number(a.done) ||
+    (a.finishOrder??99)-(b.finishOrder??99) || b.distance-a.distance);
+}
+
+function settle(race, unit, dnf=false) {
+  if (unit.done) return;
+  unit.done=true;
+  unit.dnf=dnf;
+  unit.finishOrder=race.placements.length;
+  race.placements.push(unit);
+  addLog(race,dnf ? `${unit.name} is out of the race!` :
+    `${unit.name} crosses the finish${unit.finishOrder===0?' in first place':''}!`,dnf?'danger':'finish');
+}
+
+function advanceUnit(race, unit, dt) {
+  if (unit.done) return;
+  const {path,event}=race;
+  const before=Math.max(0,Math.floor(unit.distance/path.length));
+  const sign=unit.id===0 ? race.active : null;
+  const corner=locate(path,unit.distance+21).angle-locate(path,unit.distance-21).angle;
+  const bend=Math.abs(Math.atan2(Math.sin(corner),Math.cos(corner)));
+  const rain=event.weather==='Rain';
+  const dust=event.weather==='Dust';
+  unit.contact=Math.max(0,unit.contact-dt);
+  unit.decision-=dt;
+  if (unit.decision<=0) {
+    const ahead=race.units.find(other=>other!==unit && !other.done && other.lane===unit.lane &&
+      other.distance>unit.distance && other.distance-unit.distance<46);
+    if (ahead || (sign!=='hold' && Math.random()<.19*unit.nerve)) {
+      const shift=unit.lane===0?1:unit.lane===2?-1:Math.random()<.5?-1:1;
+      if (!race.units.some(other=>other!==unit && !other.done && other.lane===unit.lane+shift &&
+        Math.abs(other.distance-unit.distance)<14)) unit.lane+=shift;
+    }
+    unit.decision=.5+Math.random()*(unit.grip>1.1?1.7:2.6);
+  }
+  unit.offset=lerp(unit.offset,(unit.lane-1)*27,Math.min(1,dt*5));
+  const effect=sign==='charge'?1.085:sign==='rest'?.92:sign==='hold'?1.015:1;
+  const prep=unit.plan==='bold'?1.04:unit.plan==='careful'?.98:1;
+  const pace=255*unit.speed*effect*prep*(.94+.06*Math.sin(race.time*1.35+unit.id*2.3))*
+    (1-(unit.damage*.0034+unit.fatigue*.0020))*(.88+(unit.condition??100)*.0012)*
+    (1-bend*(rain?.32:dust?.22:.16)/(unit.grip*(sign==='hold'?1.38:1)))*
+    (.98+unit.lane*.022)*(unit.contact>0?.78:1) * (1 + (unit.id===0?.01:.005)*Math.sin(race.time*.66));
+  unit.pace=lerp(unit.pace,pace,Math.min(1,dt*3));
+  const previousDistance=unit.distance;
+  unit.distance+=unit.pace*dt;
+  unit.fatigue=clamp(unit.fatigue+dt*(sign==='rest'?-.24:sign==='charge'?1.9:unit.plan==='careful'?.62:1),0,90);
+  if (race.hazard && unit.hitHazard!==race.hazard.id && unit.lane===race.hazard.lane &&
+      Math.abs((path.loop?unit.distance%path.length:unit.distance)-race.hazard.distance)<20) {
+    unit.hitHazard=race.hazard.id;
+    unit.damage+=7+Math.random()*9;
+    unit.contact=.8;
+    addLog(race,`${unit.name} clips ${race.hazard.name} and loses momentum.`,'danger');
+  }
+  if (unit.distance>=path.length*event.laps) {
+    const fraction=(path.length*event.laps-previousDistance)/(unit.distance-previousDistance);
+    race.crossings.push({unit,fraction});
+    unit.distance=path.length*event.laps;
+  }
+  else if (unit.id===0 && path.loop && Math.floor(unit.distance/path.length)>before) {
+    addLog(race,`Dawnward begins lap ${before+2} of ${event.laps}.`);
+    activateSign(race);
+  }
+}
+
+function resolveContact(race, unit, rival) {
+  if (unit.done || rival.done || unit.lane!==rival.lane || Math.abs(unit.distance-rival.distance)>=13) return;
+  const front=unit.distance>=rival.distance?unit:rival;
+  const back=front===unit?rival:unit;
+  const combat=race.event.discipline==='Combat';
+  if (!back.contact && !front.contact) {
+    const ram=combat && Math.random()<back.nerve*.58 && !(back.id===0 && race.active==='rest');
+    const resistance=entry=>entry.nerve*(entry.id===0 && race.active==='rest'?1.5:1);
+    back.damage+=(ram?5:2.3)/resistance(back);
+    front.damage+=(ram?15:4)/resistance(front);
+    back.contact=ram?.8:.43;
+    front.contact=ram?1.4:.35;
+    if (ram || unit.id===0 || rival.id===0) addLog(race,
+      ram?`${back.name} rams ${front.name}!`:`${back.name} and ${front.name} touch wheels.`,'danger');
+  }
+  back.distance=front.distance-13;
+  back.pace=Math.min(back.pace,front.pace);
+}
+
+function stepRace(race, dt) {
+  if (race.finished) return;
+  if (race.countdown>0) {
+    race.countdown=Math.max(0,race.countdown-dt);
+    if (race.countdown===0) {
+      addLog(race,'And they’re off! Six teams thunder down the course.','finish');
+      activateSign(race);
+    }
+    return;
+  }
+  race.time+=dt;
+  if (!race.hazard && race.event.laps>1 && race.time>=race.hazardTime) {
+    race.hazardTime=Infinity;
+    if (Math.random()<.75) {
+      race.hazard={id:1,lane:Math.floor(Math.random()*3),distance:race.path.length*(.22+Math.random()*.52),
+        name:race.event.weather==='Rain'?'a flooded rut':'loose debris'};
+      addLog(race,`Course alert: ${race.hazard.name} in lane ${race.hazard.lane+1}!`,'danger');
+    }
+  }
+  for (const unit of race.units) advanceUnit(race,unit,dt);
+  race.crossings.sort((a,b)=>a.fraction-b.fraction);
+  for(const {unit} of race.crossings) settle(race,unit);
+  race.crossings.length=0;
+  const running=raceOrder(race).filter(unit=>!unit.done);
+  for (let i=0;i<running.length;i++) for (let j=i+1;j<running.length;j++) resolveContact(race,running[i],running[j]);
+  for (const unit of running) if (unit.damage>=75 || race.time>150) settle(race,unit,true);
+  race.placements.sort((a,b)=>a.dnf-b.dnf || a.finishOrder-b.finishOrder);
+  const place=raceOrder(race).findIndex(unit=>unit.id===0)+1;
+  if (place!==race.playerPlace && race.announce<=race.time && !race.units[0].done) {
+    addLog(race,place<race.playerPlace?`Dawnward gains ground, up to P${place}!`:`Dawnward drops to P${place} as the field reshuffles.`);
+    race.playerPlace=place;
+    race.announce=race.time+2;
+  }
+  race.finished=race.placements.length===race.units.length;
+}
+
+/* graphics.js */
+
+function polygon(ctx, points, color, stroke) {
+  ctx.beginPath();
+  points.forEach(([x,y], index) => index ? ctx.lineTo(x,y) : ctx.moveTo(x,y));
+  ctx.closePath();
+  ctx.fillStyle=color;
+  ctx.fill();
+  if (stroke) {
+    ctx.strokeStyle=stroke;
+    ctx.stroke();
+  }
+}
+
+function oval(ctx,x,y,rx,ry,color) {
+  ctx.beginPath();
+  ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);
+  ctx.fillStyle=color;
+  ctx.fill();
+}
+
+function rng(seed) {
+  return () => {
+    seed=(1664525*seed+1013904223)>>>0;
+    return seed/4294967296;
+  };
+}
+
+function drawBanner(canvas) {
+  const ctx=canvas.getContext('2d');
+  const w=1000, h=302;
+  const sky=ctx.createLinearGradient(0,0,0,h);
+  sky.addColorStop(0,'#231d2a');
+  sky.addColorStop(.65,'#a65039');
+  sky.addColorStop(1,'#3b2527');
+  ctx.fillStyle=sky;
+  ctx.fillRect(0,0,w,h);
+  const random=rng(431);
+  oval(ctx,750,137,112,112,'#eab272');
+  for (let i=0;i<65;i++) {
+    const x=random()*w,y=random()*200;
+    oval(ctx,x,y,random()*1.3+.3,.8,'#f4cc8947');
+  }
+  for (let i=0;i<8;i++) {
+    ctx.fillStyle='#562d34';
+    const y=166+i*10;
+    ctx.fillRect(0,y,w,3);
+  }
+  polygon(ctx,[[0,183],[91,164],[141,180],[204,140],[270,170],[330,148],[420,187],[504,163],[552,182],[613,151],[650,163],[677,152],[721,175],[783,160],[900,184],[1000,145],[1000,280],[0,280]],'#572d36');
+  for (let i=0;i<15;i++) {
+    const x=i*77-35;
+    const y=189+(i%4)*7;
+    polygon(ctx,[[x,y+52],[x+6,y],[x+29,y-13],[x+54,y],[x+59,y+52]],'#392633');
+    ctx.fillStyle='#1f2029';
+    for (const dx of [14,25,36]) ctx.fillRect(x+dx,y+7,5,30);
+    ctx.fillStyle='#c4774c44';
+    ctx.fillRect(x+5,y+43,50,2);
+  }
+  polygon(ctx,[[0,254],[514,236],[1000,244],[1000,302],[0,302]],'#231e29');
+  for (let i=0;i<22;i++) {
+    const x=410+random()*600,y=246+random()*55;
+    polygon(ctx,[[x,y],[x+30+random()*75,y-1],[x+18,y+2]],'#dc8b5350');
+  }
+  ctx.save();
+  ctx.translate(675,196);
+  ctx.scale(1.05,1.05);
+  const ink='#191a24';
+  const gold='#c78049';
+  ctx.lineWidth=2.2;
+  // Rear horse, harness and chariot silhouette.
+  polygon(ctx,[[65,14],[108,1],[133,3],[156,-41],[169,-49],[173,-65],[182,-48],[199,-40],[214,-21],[205,-11],[180,-19],[158,20],[113,31],[76,31]],'#45313a',ink);
+  polygon(ctx,[[135,20],[140,38],[172,52],[182,69],[168,70],[155,57],[127,47],[115,28],[102,57],[82,70],[74,66],[91,49],[92,18]],'#302632',ink);
+  polygon(ctx,[[-32,38],[88,16],[89,22],[-36,45]],gold);
+  polygon(ctx,[[-104,5],[-58,12],[-37,30],[-32,58],[-95,52],[-116,27]],'#782f33',ink);
+  polygon(ctx,[[-116,11],[-85,18],[-60,18],[-40,34],[-88,34],[-108,26]],'#d58a4e',ink);
+  polygon(ctx,[[-90,12],[-88,-16],[-72,-43],[-55,-47],[-48,-32],[-58,-10],[-45,14]],'#26313a',ink);
+  polygon(ctx,[[-84,-33],[-107,-26],[-132,-31],[-155,-17],[-136,-43],[-100,-49],[-72,-46]],'#a7423c',ink);
+  oval(ctx,-62,-56,13,15,ink);
+  polygon(ctx,[[-78,-53],[-72,-70],[-53,-73],[-45,-55],[-55,-50],[-59,-60]],'#d99a58',ink);
+  polygon(ctx,[[-60,-36],[-45,-26],[-21,-31],[-16,-26],[-45,-16],[-63,-24]],'#ad6746',ink);
+  ctx.strokeStyle='#251f27';
+  ctx.beginPath(); ctx.moveTo(-20,-28); ctx.quadraticCurveTo(72,12,186,-21); ctx.stroke();
+  oval(ctx,-69,53,29,29,ink);
+  oval(ctx,-69,53,24,24,'#be7948');
+  oval(ctx,-69,53,19,19,'#322631');
+  ctx.strokeStyle='#be7948';
+  for(let i=0;i<8;i++){
+    ctx.beginPath();ctx.moveTo(-69,53);ctx.lineTo(-69+19*Math.cos(i*Math.PI/4),53+19*Math.sin(i*Math.PI/4));ctx.stroke();
+  }
+  oval(ctx,-69,53,5,5,'#e8ae64');
+  // Foreground horse in full stride.
+  polygon(ctx,[[52,8],[24,5],[6,-9],[11,9],[35,27],[56,24],[49,40],[20,59],[5,66],[7,73],[31,70],[65,53],[78,34],[111,37],[123,56],[163,71],[175,70],[177,65],[145,49],[133,24],[149,9],[164,-11],[185,-3],[198,-9],[193,-22],[173,-39],[172,-54],[160,-44],[148,-47],[133,-27],[112,-3],[90,1],[71,-2]],'#683a38',ink);
+  polygon(ctx,[[56,12],[77,5],[114,9],[137,-17],[158,-39],[169,-33],[186,-17],[173,-20],[146,-12],[131,20],[108,27],[81,23]],'#ac5d47');
+  polygon(ctx,[[113,-3],[126,-31],[151,-48],[160,-44],[143,-33],[137,-18],[129,-7]],ink);
+  polygon(ctx,[[156,-29],[179,-14],[174,-7],[151,-20]],gold);
+  oval(ctx,175,-24,2.6,2.6,'#ffdf90');
+  ctx.strokeStyle='#e7aa64';
+  ctx.beginPath(); ctx.moveTo(-20,-27); ctx.quadraticCurveTo(79,22,174,-11); ctx.stroke();
+  ctx.restore();
+  const fade=ctx.createLinearGradient(0,0,780,0);
+  fade.addColorStop(0,'#151820');
+  fade.addColorStop(.43,'#151820ee');
+  fade.addColorStop(.71,'#15182035');
+  fade.addColorStop(1,'#15182000');
+  ctx.fillStyle=fade;
+  ctx.fillRect(0,0,w,h);
+}
+
+function strokeTrack(ctx, path, width, color) {
+  ctx.beginPath();
+  path.points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));
+  if (path.loop) ctx.closePath();
+  ctx.lineCap='round';
+  ctx.lineJoin='round';
+  ctx.strokeStyle=color;
+  ctx.lineWidth=width;
+  ctx.stroke();
+}
+
+function createScenery(race) {
+  const canvas=document.createElement('canvas');
+  canvas.width=1840; canvas.height=1460;
+  const ctx=canvas.getContext('2d');
+  const random=rng(886);
+  const rain=race.event.weather==='Rain';
+  ctx.fillStyle=rain?'#23302e':'#302b2a';
+  ctx.translate(300,300);
+  ctx.fillRect(-300,-300,1840,1460);
+  for(let i=0;i<7200;i++){
+    const x=random()*1840-300,y=random()*1460-300;
+    oval(ctx,x,y,random()*5+1,random()*2+1,random()>.5?'#c5ac7211':'#10131726');
+  }
+  for(let i=0;i<135;i++){
+    const x=random()*1840-300,y=random()*1460-300;
+    if (race.path.points.some(([px,py])=>Math.hypot(px-x,py-y)<79)) continue;
+    const size=6+random()*17;
+    oval(ctx,x+5,y+9,size,size*.62,'#171b2099');
+    polygon(ctx,[[x-size,y+5],[x-size*.63,y-size*.55],[x+2,y-size],[x+size*.8,y-size*.32],[x+size,y+5],[x+2,y+size*.62]],'#383d37','#21272a');
+    polygon(ctx,[[x-size*.63,y-size*.55],[x+2,y-size],[x+size*.8,y-size*.32],[x+2,y+2]],'#4f5345');
+  }
+  strokeTrack(ctx,race.path,115,'#171920');
+  strokeTrack(ctx,race.path,104,'#c39763');
+  strokeTrack(ctx,race.path,95,'#4f3934');
+  strokeTrack(ctx,race.path,85,race.event.track.color);
+  ctx.save();
+  ctx.setLineDash([13,15]);
+  strokeTrack(ctx,race.path,1.4,'#f6cc8240');
+  ctx.restore();
+  for(let i=0;i<1800;i++){
+    const pos=locate(race.path,random()*race.path.length,random()*78-39);
+    oval(ctx,pos.x,pos.y,random()*2.7+.5,.8,random()>.5?'#ffce8a43':'#51312d49');
+  }
+  for(const distance of race.path.loop?[0]:[0,race.path.length]){
+    const pos=locate(race.path,distance);
+    ctx.save();
+    ctx.translate(pos.x,pos.y);ctx.rotate(pos.angle);
+    for(let row=0;row<2;row++) for(let column=0;column<14;column++){
+      ctx.fillStyle=(row+column)%2?'#eee3c9':'#352935';
+      ctx.fillRect(row*5-5,column*6-42,5,6);
+    }
+    ctx.restore();
+  }
+  return canvas;
+}
+
+function drawUnit(ctx,unit,pos,time) {
+  ctx.save();
+  ctx.translate(pos.x,pos.y);
+  ctx.rotate(pos.angle);
+  if(unit.id===0){
+    oval(ctx,-2,0,32,22,'#ffda7532');
+    ctx.strokeStyle='#ffe196b0';
+    ctx.lineWidth=1.4;
+    ctx.beginPath();ctx.ellipse(-2,0,32,22,0,0,Math.PI*2);ctx.stroke();
+  }
+  oval(ctx,-3,4,29,12,'#251d2590');
+  ctx.lineWidth=1.8;
+  for(const y of [-5.8,5.8]){
+    const stride=unit.done?0:Math.sin(time*18+unit.id+y)*3.5;
+    polygon(ctx,[[-10,y-2],[12,y-2],[12,y+2],[-10,y+2]],'#d4aa6e');
+    polygon(ctx,[[3,y-3],[13,y-4],[20,y-3],[25,y-1],[23,y+3],[11,y+4],[3,y+3]],unit.id===0?'#d39c62':'#b08871','#282329');
+    polygon(ctx,[[7,y-3],[5+stride,y-6],[7+stride,y-6],[10,y-2],[17,y+2],[19-stride,y+6],[17-stride,y+6],[14,y+2]],'#30262b');
+  }
+  polygon(ctx,[[-27,-8],[-13,-8],[-8,-4],[-8,4],[-13,8],[-27,8]],unit.color,'#26242c');
+  oval(ctx,-18,0,4,4,'#24212c');
+  oval(ctx,-17,-.6,2.1,2.1,'#f3cb9c');
+  ctx.fillStyle='#25242b';ctx.fillRect(-24,-11,10,3);ctx.fillRect(-24,8,10,3);
+  ctx.restore();
+}
+
+function drawRace(canvas,map,race,scenery) {
+  const player=race.units[0];
+  const camera=locate(race.path,player.distance,player.offset);
+  const ctx=canvas.getContext('2d');
+  const {width:w,height:h}=canvas;
+  const zoom=1.34;
+  ctx.fillStyle='#24272b';ctx.fillRect(0,0,w,h);
+  ctx.save();ctx.translate(w/2-camera.x*zoom,h/2-camera.y*zoom);ctx.scale(zoom,zoom);
+  ctx.drawImage(scenery,-300,-300);
+  if(race.hazard){
+    const pos=locate(race.path,race.hazard.distance,(race.hazard.lane-1)*27);
+    oval(ctx,pos.x,pos.y,14,10,'#4e3444');
+    polygon(ctx,[[pos.x,pos.y-9],[pos.x+8,pos.y+5],[pos.x-8,pos.y+5]],'#ffd07a','#6a2f30');
+  }
+  for(const unit of [...race.units.slice(1),player]) {
+    if(unit.done && !unit.dnf && unit.id!==0) continue;
+    ctx.globalAlpha=unit.dnf?.48:1;
+    drawUnit(ctx,unit,locate(race.path,unit.distance,unit.offset),race.time);
+  }
+  ctx.restore();
+  const vignette=ctx.createRadialGradient(w/2,h/2,h*.25,w/2,h/2,w*.62);
+  vignette.addColorStop(0,'#10131b00');vignette.addColorStop(1,'#10131b9b');
+  ctx.fillStyle=vignette;ctx.fillRect(0,0,w,h);
+  const mini=map.getContext('2d');
+  mini.clearRect(0,0,map.width,map.height);
+  const scale=Math.min(map.width/1240,map.height/860);
+  mini.save();mini.translate((map.width-1240*scale)/2,(map.height-860*scale)/2);mini.scale(scale,scale);
+  strokeTrack(mini,race.path,68,'#242b35');
+  strokeTrack(mini,race.path,38,'#70604d');
+  for(const unit of [...race.units.slice(1),player]){
+    const pos=locate(race.path,unit.distance,unit.offset);
+    oval(mini,pos.x,pos.y,unit.id===0?34:22,unit.id===0?34:22,'#12161f');
+    oval(mini,pos.x,pos.y,unit.id===0?24:15,unit.id===0?24:15,unit.color);
+  }
+  mini.restore();
+}
+
+/* app.js */
+
+const root=document.querySelector('#app');
+const stable=loadStable();
+const labels=['Dawnward Stable',...RIVALS.map(rival=>rival.name)];
+const colors=['#ffd16e',...RIVALS.map(rival=>rival.color)];
+const ordinal=n=>n ? `${n}${['th','st','nd','rd'][n]||'th'}` : 'DNF';
+let page='overview', race=null, scenery=null, notice='', elapsed=0, frameTime=0, refreshTime=0;
+
+const shield=`<svg viewBox="0 0 56 62" aria-hidden="true"><path d="M28 2 53 11v19c0 13-9 23-25 30C12 53 3 43 3 30V11Z" fill="#292624" stroke="#9b763f" stroke-width="2"/><path d="m28 8 19 7v15c0 10-7 18-19 24C16 48 9 40 9 30V15Z" fill="none" stroke="#5f4b32"/><path d="m32 13-15 21h10l-3 14 16-23H29Z" fill="#efbf6c"/><path d="m13 27-4 4 4 4 4-4Zm30 0-4 4 4 4 4-4Z" fill="#9b763f"/></svg>`;
+const coin='<span class="coin" aria-hidden="true">◉</span>';
+const cn=value=>value>=70?'good':value>=25?'warn':'danger';
+const badge=(value,klass='')=>`<span class="badge ${klass}">${value}</span>`;
+const points=(id)=>`<span class="dot" style="--team:${colors[id]}"></span>${labels[id]}`;
+const button=(label,action,klass='',disabled=false)=>`<button class="btn ${klass}" data-action="${action}" ${disabled?'disabled':''}>${label}</button>`;
+const notification=()=>notice ? `<div class="notice" role="status">${notice}</div>` : '';
+const sectionTitle=(label, title)=>`<div class="section-label">${label}</div><h2>${title}</h2>`;
+
+function shell(content) {
+  const nav=[['overview','◈','Overview'],['roster','♞','Roster'],['cups','♜','Championships'],['workshop','⚒','Workshop']];
+  return `<header class="top"><div class="top-inner">
+    <button class="brand" data-action="nav:overview" aria-label="Blood and Thunder home">${shield}<span><strong>BLOOD <em>&amp;</em> THUNDER</strong><small>CHARIOT RACING</small></span></button>
+    <nav aria-label="Main navigation">${nav.map(([id,icon,label])=>`<button data-action="nav:${id}" class="${page===id?'selected':''}" ${page===id?'aria-current="page"':''} ${race?'disabled':''}><span aria-hidden="true">${icon}</span>${label}</button>`).join('')}</nav>
+    <div class="resources"><div title="Stable treasury">${coin}<b>${stable.gold}</b><small>GOLD</small></div><div title="Stable reputation"><span class="rep-icon">✦</span><b>${stable.rep}</b><small>RENOWN</small></div></div>
+  </div></header>
+  <main>${content}</main>
+  <footer><div><span class="foot-mark">◇</span> BLOOD &amp; THUNDER</div><span>${storageAvailable?'◆ &nbsp; LOCAL SAVE ENABLED':'LOCAL STORAGE UNAVAILABLE · PROGRESS IS TEMPORARY'}</span></footer>`;
+}
+
+function assetCard(role, asset) {
+  const hp=stable.roster[asset.id];
+  return `<article class="asset panel"><div class="asset-head"><span class="asset-icon ${role}">${asset.icon}</span><div><div class="section-label">${ROLES[role]}</div><h3>${asset.name}</h3><p>${asset.title}</p></div></div>
+  <div class="condition"><span>Condition</span><b class="${cn(hp)}">${hp}%</b></div><div class="meter"><i class="${cn(hp)}" style="width:${hp}%"></i></div></article>`;
+}
+
+function overview() {
+  const featured=CUPS[0];
+  return `<section class="hero" aria-labelledby="welcome"><canvas id="banner" width="1000" height="302" aria-hidden="true"></canvas><div class="hero-content">
+    <div class="hero-tag"><i></i> THE STABLE QUARTER</div><h1 id="welcome">Dawnward Stable</h1>
+    <p>Build your team. Read the race. Make every lap count.</p>
+    ${button(stable.cup?'Resume championship <span>→</span>':'View championships <span>→</span>','nav:cups','primary')}
+  </div><div class="hero-caption">✦ &nbsp; THE AURELIAN DOMINION</div></section>
+  ${notification()}
+  <div class="dashboard">
+    <section class="unit-section"><div class="section-head"><div>${sectionTitle('THE STARTING LINEUP','Your Racing Unit')}</div>${button('Manage roster <span>→</span>','nav:roster','quiet')}</div>
+    <div class="asset-grid">${Object.keys(ROLES).map((role,i)=>assetCard(role,lineup(stable)[i])).join('')}</div></section>
+    <section><div class="section-head"><div>${sectionTitle('THE SEASON AHEAD',stable.cup?'Active Championship':'Featured Championship')}</div></div>
+    <article class="featured panel"><div class="featured-top"><span class="cup-icon">♜</span><div>${badge(stable.cup?'IN PROGRESS':'NOVICE SERIES','gold')}<h3>${(currentCup(stable)||featured).name}</h3></div></div>
+    <div class="featured-meta"><span>⚑ &nbsp;${(currentCup(stable)||featured).events.length} events</span><span>${coin} &nbsp;${(currentCup(stable)||featured).purse} gold purse</span></div>
+    ${button(stable.cup?'View championship →':'View schedule →',stable.cup?'nav:cups':'inspect:sun','wide')}</article></section>
+  </div>
+  <section class="stable-strip panel"><div><span>♜</span><b>${stable.wins}</b><small>CHAMPIONSHIPS WON</small></div><div><span>✦</span><b>${stable.cycles}</b><small>SEASONS COMPLETED</small></div><div><span>◈</span><b>${condition(stable)}%</b><small>LINEUP CONDITION</small></div></section>`;
+}
+
+function rosterView() {
+  return `<div class="page-head">${sectionTitle('DAWNWARD STABLE','Roster')}<p>Assemble a driver, beast team, and chariot for the next start. Each must have at least 25% condition.</p></div>
+  ${notification()}
+  <section class="panel prep"><div><h3>Race preparation</h3><p>Choose how your driver approaches the next race.</p></div><div class="segmented">${[['balanced','Balanced'],['bold','Aggressive'],['careful','Cautious']].map(([id,name])=>button(name,`plan:${id}`,stable.plan===id?'active':'')).join('')}</div></section>
+  ${Object.entries(ASSETS).map(([role,group])=>`<section class="list-section"><h2>${ROLES[role]}</h2><div class="asset-grid">${group.map(asset=>{
+    const owned=Object.hasOwn(stable.roster,asset.id);
+    const selected=stable.selected[role]===asset.id;
+    const occupied=stable.project?.id===asset.id;
+    return `<div class="roster-choice panel">
+    ${owned?assetCard(role,asset):`<div class="asset"><div class="asset-head"><span class="asset-icon ${role}">${asset.icon}</span><div><div class="section-label">RECRUIT</div><h3>${asset.name}</h3><p>${asset.title}</p></div></div></div>`}
+    <div class="traits"><span>Pace <b>${Math.round(asset.speed*100)}</b></span><span>Grip <b>${Math.round(asset.grip*100)}</b></span><span>Grit <b>${Math.round(asset.nerve*100)}</b></span></div>
+    ${owned ? button(occupied?'In training':selected?'Selected':stable.roster[asset.id]<25?'In recovery':'Select',`select:${role}:${asset.id}`,selected?'active wide':'wide',occupied||selected||stable.roster[asset.id]<25) :
+      button(`Acquire · ${asset.price} gold`,`buy:${asset.id}`,'wide',stable.gold<asset.price)}
+    </div>`;
+  }).join('')}</div></section>`).join('')}
+  ${!stable.cup?`<section class="panel prep"><div><h3>Off-season recovery</h3><p>Give injured assets time to regain condition between championships.</p></div>${button('Rest all assets','rest','',Object.values(stable.roster).every(hp=>hp===100))}</section>`:''}
+  <section class="panel prep"><div><h3>Service selected unit</h3><p>Restore up to 28 condition to each selected asset.</p></div>${button(`Service · ${repairCost(stable)} gold`,'service','primary',condition(stable)===100||stable.gold<repairCost(stable))}</section>`;
+}
+
+function schedule(cup, active=false) {
+  return `<div class="schedule">${cup.events.map((id,i)=>{
+    const event=eventInfo(id), result=active?stable.cup.results[i]:null;
+    return `<div class="schedule-row ${active&&i===stable.cup.index?'current':''}"><span class="event-no">${String(i+1).padStart(2,'0')}</span>
+    <div><b>${event.track.name}</b><small>${event.track.kind} · ${event.laps} ${event.laps===1?(event.track.kind==='Rally'?'stage':'lap'):'laps'} · ${event.weather}</small></div>
+    ${result?badge(ordinal(result.place),result.place?'gold':'red'):badge(event.discipline,event.discipline==='Combat'?'red':'')}</div>`;
+  }).join('')}</div>`;
+}
+
+function standings() {
+  return `<div class="standings">${championshipOrder(stable.cup).map((id,index)=>`<div class="${id===0?'player':''}"><span class="position">${index+1}</span><span>${points(id)}</span><b>${stable.cup.scores[id]} pts</b></div>`).join('')}</div>`;
+}
+
+function cupsView() {
+  const run=stable.cup;
+  const cup=currentCup(stable);
+  if (run) {
+    const last=run.results.at(-1);
+    return `<div class="page-head">${sectionTitle('CHAMPIONSHIP',cup.name)}<p>${cup.description}</p></div>${notification()}
+    ${run.completed?`<section class="panel prep"><div><h3>${run.completed.place?ordinal(run.completed.place)+' overall':run.completed.reason}</h3><p>${run.completed.payout} gold championship prize. ${run.results.length} of ${cup.events.length} events raced.</p></div>${button('Return to stable →','closecup','primary')}</section>`:
+    `<section class="panel prep"><div><h3>Event ${run.index+1} of ${cup.events.length} · ${eventInfo(cup.events[run.index]).track.name}</h3><p>${legal(stable)?`Lineup condition ${condition(stable)}% · ${stable.plan} preparation`:'Choose an eligible lineup in the roster before the next start.'}</p></div><div class="actions">${button('Withdraw…','withdraw','quiet')}${button('Manage unit','nav:roster')}${button('Go to starting grid →','startrace','primary',!legal(stable))}</div></section>`}
+    ${last?`<section class="panel report"><div class="section-label">LAST RACE</div><h3>${last.name} · ${ordinal(last.place)}</h3><p>+ ${last.purse} gold · ${last.damage}% damage · ${last.fatigue}% fatigue</p><div class="traits"><span>Driver −${last.wear[0]}</span><span>Beasts −${last.wear[1]}</span><span>Chariot −${last.wear[2]}</span></div></section>`:''}
+    <div class="two-col"><section class="panel inner"><h2>Event schedule</h2>${schedule(cup,true)}</section>
+    <section class="panel inner"><h2>Standings</h2>${standings()}<p class="muted">Points by finish · ${POINTS.join(' / ')}. A DNF earns zero points. Ties use the most recent finish.</p></section></div>`;
+  }
+  return `<div class="page-head">${sectionTitle('THE RACING CALENDAR','Championships')}<p>Review each schedule, then commit your stable to a series.</p></div>${notification()}
+  <div class="cup-grid">${CUPS.map(entry=>`<article class="panel inner cup-card"><div class="featured-top"><span class="cup-icon">♜</span><div>${badge(entry.label,'gold')}<h3>${entry.name}</h3></div></div><p>${entry.description}</p>
+    <div class="featured-meta"><span>⚑ &nbsp;${entry.events.length} events</span><span>${coin} &nbsp;${entry.fee} entry</span><span>${coin} &nbsp;${entry.purse} purse</span></div>
+    ${button(stable.rep<entry.rep?`View schedule · ${entry.rep} renown required`:'View schedule →',`inspect:${entry.id}`,'wide')}</article>`).join('')}</div>`;
+}
+
+function workshop() {
+  const trainee=ASSETS.driver.find(driver=>Object.hasOwn(stable.roster,driver.id)&&driver.id!==stable.selected.driver);
+  return `<div class="page-head">${sectionTitle('DAWNWARD STABLE','Workshop')}<p>Spend gold on staff, equipment, and training that carry across championships.</p></div>${notification()}
+  <div class="cup-grid">
+    ${[['⚒','Recruit a mechanic','Cheaper service and four points of condition preserved per asset after each race.', 'mechanic',90, stable.mechanic],
+    ['◇','Buy a racing harness','A permanent pace upgrade for every Dawnward lineup.', 'harness',125,stable.harness],
+    ['✦','Driver academy','Train a reserve driver for two eligible championship cycles to permanently improve stable handling. The trainee cannot race while assigned.', 'train',75,Boolean(stable.project)]].map(([icon,title,body,id,price,owned])=>
+      `<article class="panel inner cup-card"><span class="cup-icon">${icon}</span><h3>${title}</h3><p>${body}</p>
+      ${button(id==='train'&&stable.project?`${ASSETS.driver.find(driver=>driver.id===stable.project.id).name} · ${stable.project.remaining} ${stable.project.remaining===1?'cycle':'cycles'} left`:owned?'Installed':`${price} gold`,`upgrade:${id}`,'wide',owned||stable.gold<price||(id==='train'&&(!trainee||Boolean(stable.cup))))}</article>`).join('')}
+  </div><div class="two-col"><section class="panel inner"><h2>Trophy cabinet</h2>${stable.trophies.length?stable.trophies.map(name=>`<p>♜ &nbsp;${name}</p>`).join(''):'<p class="muted">Win a championship to earn its trophy.</p>'}</section>
+  <section class="panel inner"><h2>Championship history</h2>${stable.history.length?stable.history.map(item=>`<p>${item.name} · ${item.place?ordinal(item.place):item.reason}</p>`).join(''):'<p class="muted">Your completed runs will appear here.</p>'}</section></div>`;
+}
+
+function raceView() {
+  return `<div class="page-head race-title"><div>${sectionTitle(`${currentCup(stable).name.toUpperCase()} · EVENT ${stable.cup.index+1} / ${currentCup(stable).events.length}`,race.event.track.name)}</div><div class="actions">${badge(race.event.discipline,race.event.discipline==='Combat'?'red':'gold')}${badge(race.event.weather)}${badge(race.event.track.kind)}</div></div>
+  <div class="race-grid"><div>
+    <section class="race-camera panel"><canvas id="race-canvas" width="824" height="398" aria-label="Top-down race view following Dawnward Stable"></canvas><div id="race-hud"></div><div id="countdown"></div></section>
+    <div class="panel prep race-controls"><div class="actions">${button('Start race','toggle','primary')}${button('Step','step')}</div><div class="segmented" aria-label="Race speed">${[1,2,4].map(n=>button(`${n}×`,`speed:${n}`,n===race.speed?'active':'')).join('')}</div></div>
+    <section class="panel inner sign-panel"><div class="section-head"><div>${sectionTitle('RACE ORDERS','Strategy Signs')}</div><span id="sign-count" class="badge gold"></span></div>
+    <p class="muted" id="sign-state"></p><div class="sign-grid">${Object.entries(SIGNS).map(([id,sign])=>
+      `<button class="sign-btn" data-action="sign:${id}"><span>${sign.icon}</span><b>${sign.name}</b><small>${sign.description}</small></button>`).join('')}</div></section>
+  </div><aside class="race-aside">
+    <section class="panel inner map-panel"><h3>Tactical map</h3><canvas id="map-canvas" width="290" height="150" aria-label="Full course map"></canvas></section>
+    <section class="panel inner"><h3>Live standings</h3><div id="live-standings" class="standings"></div></section>
+    <section class="panel inner radio"><h3><span class="live-dot"></span> Race radio</h3><div id="commentary-feed"></div></section>
+  </aside></div>`;
+}
+
+function render() {
+  root.innerHTML=shell(race?raceView():page==='roster'?rosterView():page==='cups'?cupsView():page==='workshop'?workshop():overview());
+  if (race) updateRaceUI();
+  else if(page==='overview') drawBanner(document.querySelector('#banner'));
+}
+
+function dialog(title, body, actions='') {
+  const node=document.createElement('dialog');
+  node.className='panel inner';
+  node.innerHTML=`<div class="section-head"><h2>${title}</h2>${button('Close','dismiss','quiet')}</div>${body}<div class="dialog-actions">${actions}</div>`;
+  node.addEventListener('close',()=>node.remove());
+  root.append(node);
+  node.showModal();
+}
+
+function showCup(id) {
+  const cup=CUPS.find(entry=>entry.id===id);
+  const requirement=stable.rep<cup.rep?`Requires ${cup.rep} renown.`:stable.gold<cup.fee?'Insufficient gold.':!legal(stable)?'Select an eligible racing unit in the roster.':'';
+  dialog(cup.name,`<p>${cup.description}</p><div class="featured-meta"><span>${coin} ${cup.fee} gold entry</span><span>${coin} ${cup.purse} gold champion’s purse</span></div>${schedule(cup)}<p class="muted">Lineup condition carries between events. Withdrawals forfeit the series purse.</p>${requirement?`<p class="warn">${requirement}</p>`:''}`,
+    button('Enter championship →',`enter:${id}`,'primary',Boolean(requirement)));
+}
+
+function updateRaceUI() {
+  const player=race.units[0];
+  const order=raceOrder(race);
+  const lap=clamp(Math.floor(player.distance/race.path.length)+1,1,race.event.laps);
+  document.querySelector('#race-hud').innerHTML=`<span><small>POSITION</small><b>P${order.indexOf(player)+1} / ${order.length}</b></span><span><small>${race.event.track.kind==='Rally'?'COURSE':'LAP'}</small><b>${race.event.track.kind==='Rally'?Math.round(clamp(player.distance/race.path.length,0,1)*100)+'%':lap+' / '+race.event.laps}</b></span><span><small>DAMAGE</small><b>${Math.round(player.damage)}%</b></span><span><small>FATIGUE</small><b>${Math.round(player.fatigue)}%</b></span>`;
+  document.querySelector('#countdown').textContent=race.finished?'Race complete':race.countdown>0?(race.paused&&race.countdown===3?'Starting grid':Math.ceil(race.countdown)):'';
+  const toggle=document.querySelector('[data-action="toggle"]');
+  toggle.textContent=race.finished?'View results →':race.countdown===3?'Start race':race.paused?'Resume':'Pause';
+  document.querySelector('[data-action="step"]').disabled=!race.paused||race.finished;
+  document.querySelector('#sign-count').textContent=`${race.uses} / 3 LEFT`;
+  document.querySelector('#sign-state').textContent=race.queued?
+    `Queued: ${SIGNS[race.queued].name}. Select again to lower the sign.`+(race.active?` Active: ${SIGNS[race.active].name}.`:''):
+    race.active?`Active: ${SIGNS[race.active].name}.`:
+    race.countdown>0?'Raise a sign now to activate it at the starting signal.':
+    race.event.track.kind==='Rally'?'This stage has no further start/finish crossing.':'Raised signs activate at your next lap crossing.';
+  for(const [id] of Object.entries(SIGNS)){
+    const node=document.querySelector(`[data-action="sign:${id}"]`);
+    node.classList.toggle('active',race.queued===id||race.active===id);
+    node.setAttribute('aria-pressed',String(race.queued===id));
+    node.disabled=race.uses===0||race.finished||player.done||
+      (race.countdown===0&&(!race.path.loop||lap>=race.event.laps));
+  }
+  for (const speed of [1,2,4]) {
+    const control=document.querySelector(`[data-action="speed:${speed}"]`);
+    control.classList.toggle('active',speed===race.speed);
+    control.setAttribute('aria-pressed',String(speed===race.speed));
+  }
+  document.querySelector('#live-standings').innerHTML=order.map((unit,index)=>`<div class="${unit.id===0?'player':''}"><span class="position">${index+1}</span><span>${points(unit.id)}</span><b>${unit.dnf?'DNF':unit.done?'FIN':''}</b></div>`).join('');
+  document.querySelector('#commentary-feed').innerHTML=race.logs.map(log=>`<div class="${log.type}"><time>${Math.floor(log.time/60)}:${String(Math.floor(log.time)%60).padStart(2,'0')}</time><span>${log.message}</span></div>`).join('');
+}
+
+function updateRace(dt) {
+  stepRace(race,dt);
+  if(race.finished&&!race.saved){
+    recordRace(stable,race);
+    race.saved=true;
+    saveStable(stable);
+  }
+}
+
+function tick(now) {
+  if(race){
+    const dt=Math.min(.1,(now-(frameTime||now))/1000);
+    if(!race.paused&&!race.finished){
+      elapsed+=dt*race.speed;
+      while(elapsed>=1/60){updateRace(1/60);elapsed-=1/60;}
+    }
+    if(now-refreshTime>145){updateRaceUI();refreshTime=now;}
+    drawRace(document.querySelector('#race-canvas'),document.querySelector('#map-canvas'),race,scenery);
+  }
+  frameTime=now;
+  requestAnimationFrame(tick);
+}
+
+root.addEventListener('click',event=>{
+  const control=event.target.closest('[data-action]');
+  if(!control||control.disabled) return;
+  const [action,id,assetId]=control.dataset.action.split(':');
+  if(action==='dismiss'){control.closest('dialog').close();return;}
+  if(race){
+    if(action==='toggle'&&race.finished){
+      race=null;scenery=null;page='cups';
+      saveStable(stable);render();window.scrollTo(0,0);
+    } else if(action==='toggle') race.paused=!race.paused;
+    else if(action==='speed') race.speed=Number(id);
+    else if(action==='sign') race.queued=race.queued===id?null:id;
+    else if(action==='step') for(let i=0;i<6;i++)updateRace(1/60);
+    if(race)updateRaceUI();
+    return;
+  }
+  notice='';
+  switch(action){
+    case 'nav': page=id;window.scrollTo(0,0);break;
+    case 'inspect': showCup(id);return;
+    case 'enter': if(enterCup(stable,id)){page='cups';window.scrollTo(0,0);}break;
+    case 'select': stable.selected[id]=assetId;break;
+    case 'plan': stable.plan=id;break;
+    case 'buy': {
+      const asset=Object.values(ASSETS).flat().find(item=>item.id===id);
+      if(stable.gold>=asset.price&&!Object.hasOwn(stable.roster,id)){
+        stable.gold-=asset.price;stable.roster[id]=100;notice=`${asset.name} joins Dawnward Stable.`;
+      }
+      break;
+    }
+    case 'rest':
+      if(!stable.cup){
+        for(const id of Object.keys(stable.roster)) stable.roster[id]=100;
+        notice='The roster has recovered during the off-season.';
+      }
+      break;
+    case 'service': if(serviceUnit(stable))notice='The selected unit has been serviced.';break;
+    case 'startrace':
+      race=createRace(eventInfo(currentCup(stable).events[stable.cup.index]),stable);
+      scenery=createScenery(race);elapsed=0;window.scrollTo(0,0);render();return;
+    case 'withdraw':
+      dialog('Withdraw from the championship?','<p>Your entry fee and current condition carry over. You forfeit the championship purse.</p>',button('Confirm withdrawal','confirmwithdraw','primary'));return;
+    case 'confirmwithdraw':finishCup(stable,'Withdrawn');break;
+    case 'closecup':stable.cup=null;page='overview';window.scrollTo(0,0);break;
+    case 'upgrade': {
+      const cost={mechanic:90,harness:125,train:75}[id];
+      if(stable.gold<cost)break;
+      if(id==='train'){
+        const trainee=ASSETS.driver.find(driver=>Object.hasOwn(stable.roster,driver.id)&&driver.id!==stable.selected.driver);
+        if(!trainee||stable.project||stable.cup)break;
+        stable.project={id:trainee.id,remaining:2};
+        notice=`${trainee.name} has begun academy training.`;
+      }else{
+        if(stable[id])break;
+        stable[id]=true;
+        notice=id==='mechanic'?'Mechanic recruited.':'Racing harness installed.';
+      }
+      stable.gold-=cost;
+      break;
+    }
+    default:return;
+  }
+  saveStable(stable);
+  root.querySelector('dialog[open]')?.close();
+  render();
+});
+
+render();
+requestAnimationFrame(tick);
+
+})();
+</script>
+</body>
+</html>
